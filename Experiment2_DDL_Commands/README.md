@@ -105,57 +105,183 @@ CREATE TABLE Table_Name (
 
 **Question 1**
 --
-Create a table named Employees with the following constraints:
+-- Create a table named Bonuses with the following constraints:
+BonusID as INTEGER should be the primary key.
+EmployeeID as INTEGER should be a foreign key referencing Employees(EmployeeID).
+BonusAmount as REAL should be greater than 0.
+BonusDate as DATE.
+Reason as TEXT should not be NULL.
 
-EmployeeID should be the primary key.
-FirstName and LastName should be NOT NULL.
-Email should be unique.
-Salary should be greater than 0.
-DepartmentID should be a foreign key referencing the Departments table.
---
-
-```sql
-create table Employees(
-EmployeeID int PRIMARY KEY,
-FirstName varchar(50) NOT NULL,
-LastName varchar(50) NOT NULL,
-Email varchar(50) UNIQUE,
-Salary int CHECK (salary>0),
-DepartmentID int,
-FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
-
-)
 ```
-
-**Output:**
-<img width="1176" height="415" alt="image" src="https://github.com/user-attachments/assets/167ebdcd-4894-4cdf-986a-116b75500a36" />
-
-
-**Question 2**
----
-Create a table named Products with the following columns:
-
-ProductID as INTEGER
-ProductName as TEXT
-Price as REAL
-Stock as INTEGER
--- 
-
-```sql
-CREATE TABLE Products(
-ProductID  INTEGER,
-ProductName TEXT,
-Price REAL,
-Stock INTEGER
-
+CREATE TABLE Bonuses(
+    BonusID INTEGER PRIMARY KEY,
+    EmployeeID INTEGER,
+    BonusAmount REAL CHECK(BonusAmount>0),
+    BonusDate DATE,
+    Reason TEXT NOT NULL,
+    FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
 );
 ```
 
 **Output:**
-<img width="1218" height="330" alt="image" src="https://github.com/user-attachments/assets/52d0fd9a-4ca5-4556-be71-71a33f11f19d" />
+
+<img width="1221" height="292" alt="image" src="https://github.com/user-attachments/assets/4693ac77-c841-41a1-91ff-7df1e12fda3c" />
+
+
+**Question 2**
+---
+In the Student_details table, insert a student record where some fields are NULL, another record where all fields are filled without any NULL values, and a third record where some fields are filled, and others are left as NULL.
+
+RollNo      Name            Gender      Subject      MARKS
+----------  ------------    ----------  ----------   ----------
+205         Olivia Green    F
+207         Liam Smith      M           Mathematics  85
+208         Sophia Johnson  F           Science
+
+```
+INSERT INTO Student_details
+VALUES('205','Olivia Green','F',NULL,NULL),('207','Liam Smith','M','Mathematics','85'),('208','Sophia Johnson','F','Science',NULL) 
+```
+
+**Output:**
+
+<img width="1206" height="227" alt="image" src="https://github.com/user-attachments/assets/d7bd5f62-2cf3-4c97-b2d7-3dadde24b62d" />
 
 
 **Question 3**
+---
+Create a table named Reviews with the following columns:
+
+ReviewID as INTEGER
+ProductID as INTEGER
+Rating as REAL
+ReviewText as TEXT
+
+```
+CREATE TABLE Reviews(
+ReviewID INTEGER,
+ProductID INTEGER,
+Rating REAL,
+ReviewText TEXT 
+);
+```
+
+**Output:**
+
+<img width="1198" height="341" alt="image" src="https://github.com/user-attachments/assets/5cd222d1-29e4-4504-adcc-c6184e6d0a66" />
+
+
+**Question 4**
+---
+Write a SQL Query  to change the name of attribute "name" to "first_name"  and add mobilenumber as number ,DOB as Date in the table Companies. 
+
+```sql
+ALTER TABLE Companies
+RENAME COLUMN name TO first_name;
+ALTER TABLE Companies 
+ADD COLUMN mobilenumber number;
+ALTER TABLE Companies 
+ADD COLUMN DOB Date;
+```
+
+**Output:**
+
+<img width="1152" height="282" alt="image" src="https://github.com/user-attachments/assets/5218eb0f-67c7-4dcc-9019-ccbbacfa753f" />
+
+
+**Question 5**
+---
+Insert the below data into the Customers table, allowing the City and ZipCode columns to take their default values.
+
+CustomerID  Name          Address
+----------  ------------  ----------
+304         Peter Parker  Spider St      
+
+Note: The City and ZipCode columns will use their default values.
+ 
+```sql
+INSERT INTO Customers(CustomerID,Name,Address)
+VALUES('304','Peter Parker','Spider St') 
+```
+
+**Output:**
+
+<img width="1177" height="300" alt="image" src="https://github.com/user-attachments/assets/bffdbda5-bb2f-4a31-aecf-d8cb5826de38" />
+
+
+**Question 6**
+---
+Create a table named Employees with the following columns:
+
+EmployeeID as INTEGER
+FirstName as TEXT
+LastName as TEXT
+HireDate as DATE
+```sql
+CREATE TABLE Employees(
+EmployeeID INTEGER,
+FirstName TEXT,
+LastName TEXT,
+HireDate DATE 
+);
+```
+
+**Output:**
+
+<img width="1227" height="332" alt="image" src="https://github.com/user-attachments/assets/70ece555-7c45-4770-8513-4332265b780a" />
+
+
+**Question 7**
+---
+Create a new table named products with the following specifications:
+product_id as INTEGER and primary key.
+product_name as TEXT and not NULL.
+list_price as DECIMAL (10, 2) and not NULL.
+discount as DECIMAL (10, 2) with a default value of 0 and not NULL.
+A CHECK constraint at the table level to ensure:
+list_price is greater than or equal to discount
+discount is greater than or equal to 0
+list_price is greater than or equal to 0
+
+```sql
+CREATE TABLE products(
+product_id INTEGER PRIMARY KEY,
+product_name TEXT NOT NULL,
+list_price DECIMAL(10,2) NOT NULL CHECK(list_price>=0),
+discount DECIMAL(10,2) NOT NULL DEFAULT 0 CHECK(discount>=0),
+CHECK(list_price>=discount)
+);
+```
+
+**Output:**
+
+<img width="1211" height="287" alt="image" src="https://github.com/user-attachments/assets/0294682d-f563-4919-914f-ffcffead531e" />
+
+
+**Question 8**
+---
+Create a table named Products with the following constraints:
+
+ProductID should be the primary key.
+ProductName should be NOT NULL.
+Price is of real datatype and should be greater than 0.
+Stock is of integer datatype and should be greater than or equal to 0.
+
+```sql
+CREATE TABLE Products(
+ProductID PRIMARY KEY,
+ProductName NOT NULL,
+Price REAL CHECK(Price>0),
+Stock INTEGER CHECK(Stock>=0)
+);
+```
+
+**Output:**
+
+<img width="1200" height="292" alt="image" src="https://github.com/user-attachments/assets/c4743c1a-1961-4964-8d75-4a4d01b889d4" />
+
+
+**Question 9**
 ---
 Write a SQL query to Rename the "city" column to "location" in the "customer" table.
 
@@ -166,161 +292,33 @@ Sample table: customer
         3002 | Nick Rimando   | New York   |   100 |        5001
         3007 | Brad Davis     | New York   |   200 |        5001
         3005 | Graham Zusi    | California |   200 |        5002
- 
--- 
-
 ```sql
-ALTER TABLE customer RENAME COLUMN city to location;
+ALTER TABLE customer
+RENAME COLUMN city TO location;
 ```
 
 **Output:**
-<img width="1203" height="337" alt="image" src="https://github.com/user-attachments/assets/a86631dd-bcec-4847-8d6c-492d655c3678" />
 
-
-**Question 4**
----
-Create a table named Reviews with the following columns:
-
-ReviewID as INTEGER
-ProductID as INTEGER
-Rating as REAL
-ReviewText as TEXT
----
-
-```sql
-CREATE TABLE Reviews (
-    ReviewID INTEGER,
-    ProductID INTEGER,
-    Rating REAL,
-    ReviewText TEXT
-);
-```
-
-**Output:**
-<img width="1215" height="432" alt="image" src="https://github.com/user-attachments/assets/40d3d8d0-0711-4196-849d-5eb490da0368" />
-
-
-**Question 5**
----
-In the Cusomers table, insert a record where some fields are NULL, another record where all fields are filled without any NULL values, and a third record where some fields are filled, and others are left as NULL.
-
-CustomerID  Name          Address      City        ZipCode
-----------  ------------  ----------   ----------  ----------
-306         Diana Prince  Themyscira
-307         Bruce Wayne   Wayne Manor  Gotham      10007
-308         Peter Parker  Queens                   11375
--- 
-
-```sql
-INSERT INTO Customers(CustomerID, Name, Address, City, ZipCode) 
-VALUES 
-(306,'Diana Prince','Themyscira',null,null),
-(307,'Bruce Wayne','Wayne Mano','Gotham','10007'),
-(308,'Peter Parker','Queens',null,'11375');
-```
-
-**Output:**
-<img width="1208" height="314" alt="image" src="https://github.com/user-attachments/assets/03fb05f2-9509-4c9e-b126-3a47b8953c11" />
-
-
-**Question 6**
----
-Write a SQL query to Add a new column mobilenumber as number in the Student_details table.
-
-Sample table: Student_details
-
- cid              name             type   notnull     dflt_value  pk
----------------  ---------------  -----  ----------  ----------  ----------
-0                RollNo           int    0                       1
-1                Name             VARCH  1                       0
-2                Gender           TEXT   1                       0
-3                Subject          VARCH  0                       0
-4                MARKS            INT (  0                       0
---
-
-```sql
-ALTER TABLE Student_details
-ADD mobilenumber number;
-```
-
-**Output:**
-<img width="1211" height="433" alt="image" src="https://github.com/user-attachments/assets/9dbef18e-2386-45e6-8327-cb43d93cb5ab" />
-
-
-**Question 7**
----
-Insert a product with ProductID 104, Name Tablet, and Category Electronics into the Products table, where Price and Stock should use default values.
--- 
-
-```sql
-insert into products(productID,Name,Category,Price,Stock)values(104,'Tablet','Electronics',100,50);
-```
-
-**Output:**
-<img width="1196" height="231" alt="image" src="https://github.com/user-attachments/assets/b0e318b6-5fa3-45d2-8e5b-c15fa8bc53dd" />
-
-
-**Question 8**
----
-Create a table named Products with the following constraints:
-ProductID as INTEGER should be the primary key.
-ProductName as TEXT should be unique and not NULL.
-Price as REAL should be greater than 0.
-StockQuantity as INTEGER should be non-negative.
--- 
-
-```sql
-CREATE TABLE Products(
-ProductID INTEGER PRIMARY KEY,
-ProductName TEXT NOT NULL UNIQUE,
-Price REAL CHECK(Price>0),
-StockQuantity INTEGER CHECK(StockQuantity>=0)
-);
-```
-
-**Output:**
-<img width="1239" height="357" alt="image" src="https://github.com/user-attachments/assets/95d7e35d-56bb-4a99-9bc8-abeadbfc317e" />
-
-
-**Question 9**
----
-Insert the following products into the Products table:
-
-Name        Category     Price       Stock
-----------  -----------  ----------  ----------
-Smartphone  Electronics  800         150
-Headphones  Accessories  200         300
--- 
-
-```sql
-INSERT INTO Products( Name, Category, Price, Stock)
-VALUES("Smartphone","Electronics","800 ","150");
-INSERT INTO Products( Name, Category, Price, Stock)
-VALUES("Headphones",  "Accessories",  "200",        "300");
-```
-
-**Output:**
-<img width="1188" height="368" alt="image" src="https://github.com/user-attachments/assets/2cbf4897-c71c-40a8-8b42-fcdea0f9cf83" />
+<img width="1217" height="355" alt="image" src="https://github.com/user-attachments/assets/fea637d4-f03b-464c-be7e-1a04390f5b59" />
 
 
 **Question 10**
 ---
-Create a table named Locations with the following columns:
+Insert the following customers into the Customers table:
 
-LocationID as INTEGER
-LocationName as TEXT
-Address as TEXT
--- 
+CustomerID  Name         Address     City        ZipCode
+----------  -----------  ----------  ----------  ----------
+302         Laura Croft  456 Elm St  Seattle     98101
+303         Bruce Wayne  789 Oak St  Gotham      10001
+
 ```sql
-CREATE TABLE Locations (
-    LocationID INTEGER,
-    LocationName TEXT,
-    Address TEXT
-);
+INSERT INTO Customers
+VALUES('302','Laura Croft','456 Elm St','Seattle','98101'),('303','Bruce Wayne','789 Oak St','Gotham','10001') 
 ```
 
 **Output:**
-<img width="1219" height="447" alt="image" src="https://github.com/user-attachments/assets/c1227311-7718-4bff-96ef-3bafb94fdaca" />
+
+<img width="1242" height="353" alt="image" src="https://github.com/user-attachments/assets/f7a81c78-83e1-4e4c-aa8e-7796fcd8462a" />
 
 
 
