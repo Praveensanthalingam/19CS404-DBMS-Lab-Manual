@@ -47,108 +47,7 @@ SELECT column1, column2 FROM table_name WHERE condition;
 ```
 **Question 1**
 --
-Write a SQL query to find employees who were hired after January 1, 2020.
-
-emp table
-
-cid         name        type        
-----------  ----------  ---------- 
-0           empno       INT         
-1           ename       VARCHAR(100)
-2           job         VARCHAR(50)
-3           mgr         INT        
-4           hiredate    DATE        
-5           sal         DECIMAL(10,2)  
-6           comm        DECIMAL(10,2)  
-7           deptno      INT         
--- 
-
-```sql
-select * from emp where hiredate > '2020-01-01';
-```
-
-**Output:**
-<img width="1196" height="347" alt="image" src="https://github.com/user-attachments/assets/ea094a34-f617-4d21-8580-422fa98e582e" />
-
-
-**Question 2**
----
-Write a SQL query to delete a specific doctor from Doctors table whose ID is 1.
-
-Sample table: Doctors
-
-attributes: doctor_id, first_name, last_name, specialization
--- 
-
-```sql
-DELETE FROM Doctors
-WHERE doctor_id = 1;
-```
-
-**Output:**
-<img width="1235" height="317" alt="image" src="https://github.com/user-attachments/assets/2b9935fb-264c-440e-b356-21e37de0832b" />
-
-
-**Question 3**
----
-Update the 'Selling_Price' to add 10% extra margin for all products supplied by the supplier with id 6.
-
-PRODUCTS TABLE
-
-name               type
------------------  ---------------
-product_id         INT
-product_name       VARCHAR(100)
-category           VARCHAR(50)
-cost_price         DECIMAL(10,2)
-sell_price         DECIMAL(10,2)
-reorder_lvl        INT
-quantity           INT
-supplier_id        INT
---
-
-```sql
-UPDATE Products
-SET sell_price = sell_price + (sell_price * 0.10)
-WHERE supplier_id = 6;
-```
-
-**Output:**
-<img width="1191" height="533" alt="image" src="https://github.com/user-attachments/assets/d29813fa-787c-4c2d-af6c-a92ae136ad63" />
-
-
-**Question 4**
----
-Write a query to list all products where the discount amount exceeds $50. The discount amount is calculated as original_price * discount_percentage. Return product_id, original_price, discount_percentage, and discount_amount.
-
-Sample table: Products
-
-product_id | original_price | discount_percentage
-
------------------------------------------------------------
-
-"101" "50" "0.1"
-
-"102" "150" "0.15"
-
-"103" "200" "0.2"
-
-"104" "300" "0.25"
-
- 
-
-```sql
-select product_id,original_price,discount_percentage,(original_price*discount_percentage) as discount_amount from Products where discount_amount>50;
-
-```
-
-**Output:**
-<img width="1226" height="315" alt="image" src="https://github.com/user-attachments/assets/66ecf404-7055-4599-8f46-806e70985cf2" />
-
-
-**Question 5**
----
-Write a SQL query to classify base in the Calculations table as 'Provided' if it is not NULL, otherwise 'Not Provided'.
+Write a SQL query to classify value2 in the Calculations table as 'Small', 'Medium', or 'Large' based on whether it is less than 10, between 10 and 50, or greater than 50, respectively.
 
 cid         name        type        notnull     dflt_value  pk
 ----------  ----------  ----------  ----------  ----------  ----------
@@ -159,100 +58,193 @@ cid         name        type        notnull     dflt_value  pk
 4           exponent    INTEGER     0                       0
 5           number      REAL        0                       0
 6           decimal     REAL        0                       0
--- 
+
 
 ```sql
-SELECT 
-    id,
-    base,
-    CASE
-        WHEN base IS NOT NULL THEN 'Provided'
-        ELSE 'Not Provided'
-    END AS base_status
+SELECT
+   id,
+   value2,
+   CASE 
+     WHEN value2<10 THEN 'Small'
+     WHEN value2 BETWEEN 10 AND 50 THEN 'Medium'
+     ELSE 'Large'
+    END AS size_category
 FROM Calculations;
 ```
 
 **Output:**
-<img width="1208" height="548" alt="image" src="https://github.com/user-attachments/assets/743a58f6-2558-4e29-9147-b9ec76c988d7" />
+
+<img width="838" height="442" alt="image" src="https://github.com/user-attachments/assets/65ae1daf-c03d-4325-98da-6a2236711c27" />
+
+
+**Question 2**
+---
+Write a SQL query to retrieve the year, month, and day from the hiredate column in the emp table.
+
+For example:
+
+Result
+Year        Month       Day
+----------  ----------  ----------
+1981        04          02
+1981        09          28
+1981        05          01
+1981        06          09
+1982        12          09
+1981        11          17
+1981        09          08
+
+```sql
+SELECT 
+   strftime('%Y',hiredate) AS Year,
+   strftime('%m',hiredate) AS Month,
+   strftime('%d',hiredate) AS Day
+FROM emp;
+```
+
+**Output:**
+
+<img width="810" height="368" alt="image" src="https://github.com/user-attachments/assets/75618528-b9f9-4219-b55a-7af089ef89af" />
+
+
+**Question 3**
+---
+Write a SQL query to Delete customers with 'CUST_COUNTRY' 'UK' and 'WORKING_AREA' 'London' whose 'GRADE' is less than 3
+
+Sample table: Customer
+
++-----------+-------------+-------------+--------------+--------------+-------+-------------+-------------+-------------+---------------+--------------+------------+  
+|CUST_CODE  | CUST_NAME   | CUST_CITY   | WORKING_AREA | CUST_COUNTRY | GRADE | OPENING_AMT | RECEIVE_AMT | PAYMENT_AMT |OUTSTANDING_AMT| PHONE_NO     | AGENT_CODE |
++-----------+-------------+-------------+--------------+--------------+-------+-------------+-------------+-------------+---------------+--------------+------------+
+| C00013    | Holmes      | London      | London       | UK           |     2 |     6000.00 |     5000.00 |     7000.00 |       4000.00 | BBBBBBB      | A003       |
+| C00001    | Micheal     | New York    | New York     | USA          |     2 |     3000.00 |     5000.00 |     2000.00 |       6000.00 | CCCCCCC      | A008       |
+| C00020    | Albert      | New York    | New York     | USA          |     3 |     5000.00 |     7000.00 |     6000.00 |       6000
+```sql
+DELETE FROM Customer
+WHERE CUST_COUNTRY='UK'
+      AND WORKING_AREA='London'
+      AND GRADE<3;
+```
+
+**Output:**
+
+<img width="1197" height="485" alt="image" src="https://github.com/user-attachments/assets/096105cf-4829-42ec-a6b7-480cec982211" />
+
+
+**Question 4**
+---
+Write a query to get information of Employees from EmployeeInfo1 table where the Employee is not assigned to any department.
+
+EmpID
+
+EmpFname
+
+EmpLname
+
+Department
+
+Project
+
+Address
+
+DOB
+
+Gender
+
+1
+
+Sanjay
+
+Mehra
+
+HR
+
+P1
+
+Hyderabad(HYD)
+
+01/12/1976
+
+M
+
+2
+
+Ananya
+
+Mishra
+
+Admin
+
+P2
+
+Delhi(DEL)
+
+02/05/1968
+
+
+
+```sql
+SELECT*FROM EmployeeInfo1
+WHERE Department IS NULL;
+
+```
+
+**Output:**
+
+<img width="1196" height="267" alt="image" src="https://github.com/user-attachments/assets/a9a89427-d5d1-40ea-a5b3-4d9418b2d862" />
+
+
+**Question 5**
+---
+Write a SQL query to Delete customers with 'GRADE' 3 and whose 'CUST_NAME' contains the substring 'BBB', and 'PAYMENT_AMT' is greater than 2000
+
+Sample table: Customer
+
++-----------+-------------+-------------+--------------+--------------+-------+-------------+-------------+-------------+---------------+--------------+------------+  
+|CUST_CODE  | CUST_NAME   | CUST_CITY   | WORKING_AREA | CUST_COUNTRY | GRADE | OPENING_AMT | RECEIVE_AMT | PAYMENT_AMT |OUTSTANDING_AMT| PHONE_NO     | AGENT_CODE |
++-----------+-------------+-------------+--------------+--------------+-------+-------------+-------------+-------------+---------------+--------------+------------+
+| C00013    | Holmes      | London      | London       | UK           |     2 |     6000.00 |     5000.00 |     7000.00 |       4000.00 | BBBBBBB      | A003       |
+| C00001    | Micheal     | New York    | New York     | USA          |     2 |     3000.00 |     5000.00 |     2000.00 |       6000.00 | CCCCCCC      | A008       |
+| C00020    | Albert      | New York    | New York     | USA          |     3 |     5000.00 |     7000.00 |     6000.00 |       6000.00 
+
+```sql
+DELETE FROM Customer
+WHERE GRADE=3 AND CUST_NAME LIKE '%BBB%' AND PAYMENT_AMT>2000;
+```
+
+**Output:**
+
+<img width="1217" height="528" alt="image" src="https://github.com/user-attachments/assets/89567705-3c85-46b5-81c2-c5bfc4a6cc5e" />
 
 
 **Question 6**
 ---
-Write a SQL query to calculate the discounted price for products whose original price is between $50 and $150. Return product_id, original_price, discount_percentage, and discounted_price.
+Write a SQL query to remove rows from the table 'customer' with the following condition -
 
-Sample table: Products
+1. 'cust_country' must be 'India',
 
-product_id | original_price | discount_percentage
+2. 'cus_city' must not be 'Chennai',
 
- ------------+----------------+--------------------- 
+Sample table: Customer
 
-101 | 50.00 | 0.10 
-
-102 | 125.00 | 0.15
-
- 103 | 200.00 | 0.20
--- 
-
++-----------+-------------+-------------+--------------+--------------+-------+-------------+-------------+-------------+---------------+--------------+------------+  
+|CUST_CODE  | CUST_NAME   | CUST_CITY   | WORKING_AREA | CUST_COUNTRY | GRADE | OPENING_AMT | RECEIVE_AMT | PAYMENT_AMT |OUTSTANDING_AMT| PHONE_NO     | AGENT_CODE |
++-----------+-------------+-------------+--------------+--------------+-------+-------------+-------------+-------------+---------------+--------------+------------+
+| C00013    | Holmes      | London      | London       | UK           |     2 |     6000.00 |     5000.00 |     7000.00 |       4000.00 | BBBBBBB      | A003       |
+| C00001    | Micheal     | New York    | New York     | USA          |     2 |     3000.00 |     5000.00 |     2000.00 |       6000.00 | CCCCCCC      | A008       |
+| C00020    | Albert      | New York    | New York     | USA          |     3 |     5000.00 |     7000.00 |     6000.00 |       6000
 ```sql
-select product_id,original_price,discount_percentage,original_price-(original_price*discount_percentage) as discounted_price from Products where original_price between 50 and 150;
+DELETE FROM customer
+WHERE CUST_COUNTRY='India'
+AND CUST_CITY<>'Chennai';
 ```
 
 **Output:**
-<img width="1215" height="366" alt="image" src="https://github.com/user-attachments/assets/1ef91a71-60a3-4cb3-8938-9e9e90f5a912" />
+
+<img width="1205" height="897" alt="image" src="https://github.com/user-attachments/assets/f6299801-f726-42cd-b304-1e610556681c" />
 
 
 **Question 7**
----
-Update the reorder level to 40 pieces for all products belonging to the 'Grocery' category in the products table.
-
-PRODUCTS TABLE
-
-name               type
------------------  ---------------
-product_id         INT
-product_name       VARCHAR(100)
-category           VARCHAR(50)
-cost_price         DECIMAL(10,2)
-sell_price         DECIMAL(10,2)
-reorder_lvl        INT
-quantity           INT
-supplier_id        INT
---
-
-```sql
-UPDATE Products
-SET reorder_lvl = 40
-WHERE category = 'Grocery';
-```
-
-**Output:**
-<img width="1202" height="415" alt="image" src="https://github.com/user-attachments/assets/4f8d9890-5373-4a59-a1a0-ddd000a36cb9" />
-
-
-**Question 8**
----
-Change the supplier name to upper case where contact person contains ' Singh' in suppliers table.
-
-name               type
------------------  ---------------
-supplier_id        INT
-supplier_name      VARCHAR(100)
-contact_person     VARCHAR(100)
-phone_number       VARCHAR(20)
-email              VARCHAR(100)
-address            VARCHAR(250)
--- 
-
-```sql
-update suppliers set supplier_name=UPPER(supplier_name) where contact_person like '%Singh%';
-
-```
-
-**Output:**
-<img width="1194" height="345" alt="image" src="https://github.com/user-attachments/assets/68b06d01-2237-4565-8fd8-5cc400a4beee" />
-
-
-**Question 9**
 ---
 Write a SQL statement to change salary of employee to 8000 whose Employee ID is 105, if the existing salary is less than 5000.
 
@@ -271,37 +263,136 @@ salary
 commission_pct
 manager_id
 department_id 
--- 
-
 ```sql
-update Employees set salary=8000 where employee_id=105 and salary<5000;
+UPDATE Employees
+SET SALARY='8000'
+WHERE SALARY<5000 AND EMPLOYEE_ID=105;
 ```
 
 **Output:**
-<img width="1204" height="259" alt="image" src="https://github.com/user-attachments/assets/cf8d2576-e582-41ad-a8bc-e1df0829344a" />
+
+<img width="1188" height="245" alt="image" src="https://github.com/user-attachments/assets/c1ccb6f8-6f04-422b-805b-533c5fa94d43" />
+
+**Question 8**
+---
+Write a query to retrieve the EmpFname and EmpLname in a single column as “FullName”. The first name and the last name must be separated with space from EmployeeInfo table.
+EmpID
+
+EmpFname
+
+EmpLname
+
+Department
+
+Project
+
+Address
+
+DOB
+
+Gender
+
+1
+
+Sanjay
+
+Mehra
+
+HR
+
+P1
+
+Hyderabad(HYD)
+
+01/12/1976
+
+M
+
+2
+
+Ananya
+
+Mishra
+
+Admin
+
+P2
+
+Delhi(DEL)
+
+02/05/1968
+
+F
+
+
+
+```sql
+SELECT
+  CAST((EmpFname||' '||EmpLname) AS TEXT) AS FullName
+FROM EmployeeInfo;
+```
+
+**Output:**
+
+<img width="605" height="326" alt="image" src="https://github.com/user-attachments/assets/63aad6fa-373b-4f63-b8f1-4827f8d8cfb4" />
+
+
+**Question 9**
+---
+Write a SQL query to identify the top 3 most expensive discounted products. Return product_id, original_price, discount_percentage, and discounted_price.
+
+Sample table: Products
+
+product_id | original_price | discount_percentage
+
+ ------------+----------------+--------------------- 
+
+101 | 50.00 | 0.10 
+
+102 | 150.00 | 0.15 
+
+103 | 200.00 | 0.20 
+
+104 | 300.00 | 0.25
+
+```sql
+SELECT
+    product_id,
+    original_price,
+    discount_percentage,
+    original_price*(1-discount_percentage) AS discounted_price
+FROM Products
+ORDER BY discounted_price DESC
+LIMIT 3;
+```
+
+**Output:**
+
+<img width="1206" height="307" alt="image" src="https://github.com/user-attachments/assets/3674c762-5dcf-4772-b255-eb082169c350" />
 
 
 **Question 10**
 ---
-Write a SQL query to find the details of those salespeople who live in cities other than Paris and Rome. Return salesman_id, name, city, commission.
+Write a SQL statement to update the product_name as 'Grapefruit' whose product_id is 4 in the products table.
 
-Sample table: salesman
 
- salesman_id |    name    |   city   | commission 
--------------+------------+----------+------------
-        5001 | James Hoog | New York |       0.15
-        5002 | Nail Knite | Paris    |       0.13
-        5005 | Pit Alex   | London   |       0.11
--- 
+products table
+
+---------------
+product_id
+product_name
+category_id
+availability 
 
 ```sql
-SELECT salesman_id, name, city, commission
-FROM salesman
-WHERE city NOT IN ('Paris', 'Rome');
+UPDATE products
+SET product_name='Grapefruit'
+WHERE product_id='4';
 ```
 
 **Output:**
-<img width="1213" height="396" alt="image" src="https://github.com/user-attachments/assets/42f4a8de-5943-49ed-b015-99ae82b35199" />
+
+<img width="1210" height="247" alt="image" src="https://github.com/user-attachments/assets/e7bacc47-9123-4bcd-8296-1857f7dd083c" />
 
 
 ## RESULT
